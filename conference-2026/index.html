@@ -148,6 +148,17 @@
   .notes-drawer p{margin:0 0 .6em}
   .notes-drawer .cue,.pnotes .cue{color:#9fb7ff;font-weight:700}
   @media (max-width:720px){.dbar .ttl,.dbar .opt{display:none}}
+  /* 프로젝터 화면: 마우스를 멈추면 아래 막대를 숨김 */
+  #deck .dbar,#deck .prog{transition:opacity .3s ease}
+  body.idle #deck .dbar,body.idle #deck .prog{opacity:0;pointer-events:none}
+  body.idle #deck{cursor:none}
+  /* 발표자 화면 잠금 */
+  .lock{position:absolute;inset:0;z-index:70;background:#15171a;display:grid;place-items:center;padding:16px}
+  .lock-card{display:flex;flex-direction:column;gap:10px;width:min(340px,100%);background:#202327;border:1px solid #33373c;border-radius:18px;padding:20px;color:#f2f0e9}
+  .lock-card b{font-size:18px}.lock-card span,.lock-card small{font-size:12.5px;color:#9a9ea3;line-height:1.5}
+  .lock-card input{padding:12px;border-radius:12px;border:1px solid #3b3f44;background:#15171a;color:#fff;font-size:20px;letter-spacing:.3em;text-align:center}
+  .lock-card .btn{background:#2a2d31;color:#fff;border-color:#3b3f44}.lock-card .btn.hot{background:#d9f24f;color:#15171a;border-color:#d9f24f}
+  .lock-card small{color:#ff8a6b}
 
   /* ---------- 발표자 화면 ---------- */
   #pres{position:fixed;inset:0;flex-direction:column;background:#15171a;color:#f2f0e9}
@@ -159,6 +170,9 @@
   .mini.next{max-height:220px}
   .pnotes{flex:1;overflow:auto;padding:14px 18px;font-size:17px;line-height:1.8}
   .pnotes p{margin:0 0 .7em}.pnotes b{color:#d9f24f}
+  .pnotes h6{margin:0 0 8px;font-size:12px;color:#d9f24f;letter-spacing:.02em}
+  .pnotes .appnote{margin-top:10px;border-top:1px dashed #3b3f44;padding-top:8px;font-size:15px;color:#c9ccd0}
+  .pnotes .appnote summary{cursor:pointer;font-size:13px;font-weight:800;color:#9fb7ff;margin-bottom:6px}
   .clock{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px 12px}
   .clock div{background:#15171a;border-radius:10px;padding:8px 10px}
   .clock small{display:block;font-size:11px;color:#9a9ea3;font-weight:700}
@@ -238,6 +252,7 @@
   .qlist li.pk{border:2px solid #15171a;background:#f4fbd0}
   .tagb{flex:none;font-size:11px;font-weight:900;border-radius:999px;padding:3px 8px;background:#ece8de;color:#6b6f74;cursor:pointer;border:0}
   .tagb.a{background:#ff5a30;color:#fff}
+  .s5{display:inline-block;margin-left:6px;font-size:10.5px;font-weight:900;color:#1f55a8;background:#e3edff;border:1px solid #b9cff5;border-radius:999px;padding:1px 7px;vertical-align:1px;white-space:nowrap}
   /* 3단계: A/B 단추로 나누기 */
   .ab{display:flex;gap:4px;flex:none}
   .ab button{min-width:44px;min-height:36px;border-radius:10px;border:2px solid #d8d2c7;background:#fff;font-weight:900;font-size:13px;cursor:pointer;color:#6b6f74}
@@ -331,14 +346,14 @@
       <div class="qrbox"><div class="qr" id="homeQr"></div><small>청중 체험 QR</small></div>
     </div>
     <div class="tiles">
-      <a class="tile" href="#slide-1"><span class="ico">▶</span><b>발표 슬라이드</b><span>발표 자료(PDF) 19~40쪽, 수학 파트 22장을 프로젝터에 띄웁니다. 화면을 누르거나 <kbd>→</kbd>로 넘기고 <kbd>Q</kbd> QR · <kbd>N</kbd> 대본.</span></a>
-      <a class="tile" href="#presenter" data-act="openPresenter"><span class="ico">◧</span><b>발표자 화면</b><span>노트북 화면용. 지금 장·다음 장·대본을 보고, 여기서 넘기면 슬라이드 창도 함께 넘어갑니다.</span></a>
+      <a class="tile" href="#slide-1"><span class="ico">▶</span><b>발표 슬라이드</b><span>발표 자료(PDF) 19~40쪽, 수학 파트 22장을 프로젝터에 띄웁니다. 화면을 누르거나 <kbd>→</kbd>로 넘기고 <kbd>Q</kbd> QR. 대본은 보이지 않습니다.</span></a>
+      <a class="tile" href="#presenter" data-act="openPresenter"><span class="ico">◧</span><b>발표자 화면 🔒</b><span>발표자 전용(비밀번호). 노트북에서 지금 장·다음 장·발표자 노트를 보고, 여기서 넘기면 슬라이드 창도 함께 넘어갑니다.</span></a>
       <a class="tile" href="#lab"><span class="ico">✎</span><b>청중 체험</b><span>휴대폰용. QFT 6단계로 질문을 만들고 나눈 뒤, 원의 방정식과 거리 공식으로 가게가 어느 구역인지 판정합니다.</span></a>
     </div>
     <div class="links">
       <a class="btn" href="../school-zone/">학교 앞 가게 앱(개념 6단계)</a>
       <a class="btn" href="../daegu-learning/">실천 지표 전체</a>
-      <span class="keys"><kbd>←</kbd><kbd>→</kbd> 넘기기 · <kbd>Q</kbd> QR · <kbd>N</kbd> 대본 · <kbd>9</kbd> 90초 · <kbd>6</kbd> 60초 · <kbd>4</kbd> 40초 · <kbd>2</kbd> 20초 · <kbd>F</kbd> 전체 화면 · <kbd>P</kbd> 발표자 화면</span>
+      <span class="keys"><kbd>←</kbd><kbd>→</kbd> 넘기기 · <kbd>Q</kbd> QR · <kbd>9</kbd> 90초 · <kbd>6</kbd> 60초 · <kbd>4</kbd> 40초 · <kbd>2</kbd> 20초 · <kbd>F</kbd> 전체 화면</span>
     </div>
   </section>
 
@@ -355,7 +370,6 @@
 <!-- ================= 슬라이드 ================= -->
 <section class="view" id="deck" aria-label="발표 슬라이드">
   <div class="stage-wrap" id="stageWrap"><img id="slideImg" alt="">
-    <div class="notes-drawer" id="drawer" hidden></div>
   </div>
   <div class="prog"><i id="progBar"></i></div>
   <div class="dbar">
@@ -365,14 +379,12 @@
     <button class="btn" type="button" data-act="next" aria-label="다음 장">▶</button>
     <span class="ttl" id="ttl"></span>
     <span class="grow"></span>
-    <button class="btn opt" type="button" data-act="notes" id="notesBtn">대본</button>
     <button class="btn" type="button" data-act="qr">QR</button>
     <button class="btn opt" type="button" data-act="timer:90">90초</button>
     <button class="btn opt" type="button" data-act="timer:60">60초</button>
     <button class="btn opt" type="button" data-act="timer:40">40초</button>
     <button class="btn opt" type="button" data-act="timer:20">20초</button>
     <button class="btn opt" type="button" data-act="openLab">체험 화면</button>
-    <button class="btn opt" type="button" data-act="openPresenter">발표자 화면</button>
     <button class="btn opt" type="button" data-act="fs">전체 화면</button>
   </div>
 </section>
@@ -387,6 +399,16 @@
     <span class="ttl" id="pttl"></span>
     <span class="grow"></span>
     <button class="btn" type="button" data-act="openAudience">청중 화면 창 열기</button>
+  </div>
+  <div class="lock" id="lock" hidden>
+    <form class="lock-card" id="lockForm">
+      <b>발표자 전용 화면</b>
+      <span>비밀번호를 넣어 주세요. 이 기기에서는 한 번만 넣으면 됩니다.</span>
+      <input id="pin" type="password" inputmode="numeric" autocomplete="off" aria-label="비밀번호">
+      <button class="btn hot" type="submit">열기</button>
+      <a class="btn" href="#home">첫 화면으로</a>
+      <small id="pinMsg"></small>
+    </form>
   </div>
   <div class="pgrid">
     <div class="pcell"><h5><span>지금 화면</span><span id="pnow"></span></h5><div class="mini"><img id="miniNow" alt=""></div></div>
@@ -720,7 +742,39 @@ D(40, 25)는 (40−20)² + (25−15)² = 500 &gt; 25, 실제 거리로 약 224m 
   ];
   const N = SL.length;
   const img = i => `slides/p${SL[i].p}.webp`;
-  const noteHtml = s => s.note.split("\n").map(p => `<p>${p.replace(/\[([^\]]+)\]/g, '<span class="cue">[$1]</span>')}</p>`).join("");
+  /* 발표자 노트: Canva 「대구미래교육콘퍼런스_대구학습법」 수학 파트(Canva 19~42쪽)의 발표자 노트를 PDF 쪽에 맞춰 옮김.
+     Canva 23~25쪽(10단계, 세 장) → PDF 23쪽, 이후 Canva n쪽 → PDF (n−2)쪽 */
+  const CANVA = {
+    20: `황인형 선생님은 중학교 도덕에서 4 IFs로 중03비판-02 '다양한 관점에서 아이디어를 검토한다'를 가르치셨습니다. 같은 비판적 사고가 고등학교에서는 고03비판-02 '다양한 관점에서 아이디어를 비교 및 분석하고 타당성을 판단한다'로 깊어집니다. 초등학교에서는 '생각이나 의견이 적절한지 평가한다'입니다. 앞에서 말씀하신 대로 세부 기능은 초·중·고가 함께 쓰고 실천 지표는 깊어지는데, 화면이 바로 그 모습입니다. 대구학습법 자료는 이 3단계 구조의 목적을 비계 설정, 지식의 전이, 메타인지 함양이라고 밝힙니다. 학교급이 올라가며 지표가 한 단계씩 깊어지는 이 장면이 바로 비계이고, 같은 세부 기능이 교과를 넘나드는 것이 전이입니다. 이 고03비판-02는 잠시 뒤 수학 수업의 '질문 다듬기' 단계에서 다시 만납니다.
+오늘 저는 두 가지 학습 기능을 보여 드립니다. 수학 수업에서는 사고 기능을, 그리고 이 발표에서 여러분이 직접 체험하실 의사소통 기능입니다. 오른쪽 위 배지가 지금 어떤 기능을 다루는지 표시합니다.`,
+    21: `황인형 선생님은 평가기준으로 학생이 보여 줄 수행 수준을 확인하고, 실천 지표로 그 수행에 필요한 기능을 지도하고 점검했다고 말씀하셨습니다. 수학 사례로 들어가기 전에, 대구학습법의 가장 큰 특징인 실천 지표가 성취수준과 어떻게 다른지 한 장으로 정리하겠습니다.
+성취수준은 교과 내용을 무엇을 얼마나 할 수 있는지 도달 정도로 나타냅니다. 공통수학2는 A부터 E까지입니다. 실천 지표는 다릅니다. 교과를 넘어 '어떻게 배우는가'를 보이는 행동으로 적은 문장이고, 초·중·고가 같은 세부 기능 안에서 이어집니다. 대구학습법 자료도 실천 지표를 교사가 지도하고 객관적으로 관찰할 수 있도록 기술한 행동 단위라고 하고, 각 교과목의 특수성에 맞춰 유연하게 적용될 수 있다고 설명합니다.
+교과에 따라 의미가 조금 다릅니다. 국어나 영어 같은 기능교과는 성취기준 자체가 듣기·말하기·읽기·쓰기 같은 기능이어서 실천 지표와 겹치는 부분이 많습니다. 수학·과학 같은 내용교과는 '점과 직선 사이의 거리'에 해당하는 지표가 없기 때문에 일대일로 맞추기 어렵습니다. 그런데 바로 그 때문에 실천 지표가 내용 학습과 겹치지 않는 '어떻게 배우는가'의 축으로 또렷이 드러납니다. 수학에서는 성취기준의 명사가 아니라, 성취수준을 끌어올리는 동사에서 지표를 찾습니다. 공통수학2 성취수준표 A 수준의 '그 이유를 설명할 수 있다'는 고01표현-05 '명확한 증거와 자료를 바탕으로 말이나 글로 설명한다'와 만납니다.
+그래서 교사는 지표 하나를 고르고, 보이는 행동으로 풀어 쓰고, 그 행동이 일어날 수업 장면과 평가에 심고, 관찰하고 학생이 스스로 점검하게 합니다. 이 순서를 잠시 뒤 수학 수업 설계에서 다섯 질문으로 자세히 보여 드리겠습니다.`,
+    23: `[1:30] 수학 수업도 같은 10단계로 설계했습니다. 평가과제에서 출발해 필요한 기능을 정하고, 평가 기준과 실천 지표를 잇고, 학습 전략을 명시적으로 가르친 뒤, 단원과 평가로 다시 연결합니다. 오른쪽 위 제목에 지금이 몇 단계인지 표시합니다.`,
+    24: `[1:30] 단원의 핵심 아이디어는 ‘수학적 모델은 현실을 단순화한다’입니다. 개념 기반 탐구(Erickson & Lanning)의 개념은 모델·조건·한계로 잡았습니다. 학생은 법의 거리 기준을 식으로 옮기고, 그 식이 현실을 다 담지 못한다는 것을 스스로 확인합니다. 탐구 질문은 개발한 예시이니 실제 수업에 맞게 조정하세요.`,
+    25: `[1:30] 평가과제를 먼저 정합니다. 가게 D가 어느 구역인지 판단하고 근거를 식으로 설명하는 문항입니다. 문항의 동사 ‘판단하다’와 ‘설명하다’가 이후 평가 기준과 실천 지표를 찾는 열쇠입니다.`,
+    26: `[2:00] 문항을 풀려면 질문을 고르고, 조건을 식으로 옮기고, 모델의 한계를 따지고, 근거를 설명해야 합니다. 이 가운데 평가에서 직접 확인하는 핵심 기능은 논리적 표현과 비판적 사고입니다. 질문의 확산과 수렴(창의적 사고)은 수업에서 함께 관찰합니다. 이렇게 평가에서 확인하는 기능과 수업에서 기르는 기능을 나누면 설계가 분명해집니다.`,
+    27: `[1:30] 수행지시어는 문항의 언어, 루브릭 행은 채점의 언어입니다. 이 문항은 문제해결 4)와 의사소통 3)으로 채점합니다. 평가 기준이 ‘무엇을 해야 하는지’를 정해 줍니다.`,
+    29: `[1:30] 평가 기준의 동사에서 실천 지표를 찾습니다. ‘설명한다’는 고01표현-05, 기호 사용은 고01표현-06과 맞닿습니다. 억지로 모두 잇지 않았고 문장이 맞닿는 곳만 이었습니다. 실천 지표는 ‘어떻게 해야 하는지’를 안내합니다. 점수를 매기지 않고 관찰 지표로 씁니다. 수업 중에는 비판-02와 창의-07을 함께 관찰합니다.`,
+    30: `[1:00] 학습 전략은 QFT, 질문형성기법입니다. 6단계 가운데 2단계가 확산, 3·4단계가 수렴입니다. 도덕의 4 IFs처럼 설명–시범–연습으로 가르쳤습니다. QFT는 목적이 아니라 기능을 연습시키는 도구입니다.`,
+    31: `[2:00] 1단계는 교사가 장면을 만드는 설계 단계입니다. 출발 자료는 질문이 아니라 진술문입니다. 자료가 질문이면 학생은 질문을 만들기보다 답하려 하기 때문입니다. 2단계에서 ‘왜 하필 50m일까?’처럼 기준 자체를 묻는 질문이 나오면 고03창의-01이 드러난 것입니다. 피드백 발문: ‘다른 사람의 입장에서 물어볼 질문은 없을까?’`,
+    32: `[2:00] 핵심 장치는 분류 기준을 교사가 정해 주지 않는 것입니다. 시범으로 기준 하나만 보여 주고, 학생이 자기 기준을 세워 질문을 나눕니다. 넓게 펼친 질문을 기준에 따라 좁히는 4단계가 고03창의-07의 수렴입니다. 확산과 수렴이 한 수업 안에서 모두 일어납니다.`,
+    34: `[2:00] 지도를 좌표평면으로 옮기고 법의 문장을 기호와 식으로 옮깁니다. 이 장면에서 고01표현-06이 드러나고, 고른 질문의 해결책을 도출하는 이 단계가 고03창의-07의 마지막 고리입니다. 그다음 ‘출입문이 여러 개라면? 경계가 직선이 아니라면?’으로 모델과 현실을 비교하는 순간 고03비판-02가 작동합니다. 모델의 한계를 묻는 순간 비판적 사고가 작동합니다.
+[발표자 확인 사항] 원 덱 노트에는 교육환경 보호에 관한 법률 제2조·제8조, 시행령 제21조 근거가 적혀 있습니다. 조문을 발표 전에 법제처에서 다시 확인하세요. 화면의 학교 그림은 설명용 가상 학교입니다.`,
+    35: `[1:00] 학생들은 실천 지표 문장을 체크리스트로 삼아 오늘의 질문 활동을 스스로 점검합니다. 판정이 아니라 자기 점검입니다. ‘이 방법을 어디에 또 쓸까?’는 도덕에서 배운 4 IFs를 사회 시간에 꺼내 쓴 학생처럼 전이로 이어집니다. 피드백 발문: ‘이 방법을 다음에는 어디에 써 보고 싶나요?’`,
+    36: `[1:30] 한 차시로 끝나지 않도록 단원 안에 배치합니다. 앞 차시에서 개념을 익히고, 본 수업에서 질문 전략과 모델링을 함께 하고, 뒤 차시에서 수행과제로 확인합니다. 차시 구성은 초안이니 실제 운영에 맞게 바꿔 말씀하세요.`,
+    37: `[1:30] 수행지시어는 문항의 언어, 루브릭은 채점의 언어, 실천 지표는 배움 과정의 언어입니다. 셋을 같은 동사로 이으면 수업과 평가와 기록이 하나로 연결됩니다. 두 가지를 짚습니다. 답이나 절차만 요구하는 지시어에는 닿는 지표가 없습니다. 그리고 수준은 루브릭으로 교사가 판단하고, 실천 지표는 그 근거가 되는 행동을 어디서 볼지 알려 주는 관찰 지표이므로 점수를 매기지 않습니다.`,
+    38: `[1:00] 수업 중에는 단계별 관찰 포인트를 지표 코드와 함께 짧게 메모하고, 질문 카드와 성찰지, 결과물로 근거를 확인합니다. 학생부에는 코드가 아니라 학생이 실제로 한 행동으로 서술합니다.`,
+    39: `평가와 기록입니다. 수업 중에는 앞의 단계별 관찰 포인트를 지표 코드와 함께 짧게 메모합니다. 그다음 질문 카드, 성찰지, 탐구 결과물로 근거를 확인하고, 학생부에는 코드가 아니라 학생이 실제로 한 행동으로 서술합니다. 코드는 교사의 관찰 도구, 기록은 학생의 행동으로.
+화면의 문장은 예시입니다. 질문을 다양하게 만든 것은 고03창의-07의 확산, 기준을 세워 질문을 나눈 것은 고03비판-02, 탐구할 질문을 고른 것은 고03창의-07의 수렴, 식으로 나타내 판정한 것은 고01표현-06, 실제 조건과 비교해 한계를 설명한 것은 고03비판-02와 이어집니다.`
+  };
+  CANVA[22] = CANVA[21]; CANVA[28] = CANVA[27]; CANVA[33] = CANVA[32];
+  const CANVA_PG = p => p <= 22 ? String(p) : p === 23 ? "23~25" : String(p + 2);
+  const paras = t => t.split("\n").map(p => `<p>${p.replace(/\[([^\]]+)\]/g, '<span class="cue">[$1]</span>')}</p>`).join("");
+  const noteHtml = s => CANVA[s.p]
+    ? `<div class="cnote"><h6>발표자 노트 · Canva ${CANVA_PG(s.p)}쪽</h6>${paras(CANVA[s.p])}</div><details class="appnote"><summary>앱 진행 대본 (체험·타이머 안내)</summary>${paras(s.note)}</details>`
+    : paras(s.note);
 
   /* ================= 공유 상태 (슬라이드 창 ↔ 발표자 창) ================= */
   const S = Object.assign({ i: 0, timer: null, qr: false, clock: null }, store.get("deck2", {}));
@@ -758,13 +812,13 @@ D(40, 25)는 (40−20)² + (25−15)² = 500 &gt; 25, 실제 거리로 약 224m 
     $("pg").textContent = `${S.i + 1} / ${N}`;
     $("ttl").textContent = `${s.p}쪽 · ${s.t}`;
     $("progBar").style.width = ((S.i + 1) / N * 100) + "%";
-    $("drawer").innerHTML = `<h4>대본 · ${s.p}쪽</h4>` + noteHtml(s);
     preload(S.i + 1); preload(S.i - 1);
   }
   $("slideImg").addEventListener("click", () => act("next"));
 
   /* ================= 발표자 화면 ================= */
   function renderPres() {
+    if (!unlocked()) { $("pnotes").innerHTML = ""; return; }
     const s = SL[S.i];
     $("ppg").textContent = `${S.i + 1} / ${N}`;
     $("pttl").textContent = `${s.p}쪽 · ${s.t}`;
@@ -839,7 +893,6 @@ D(40, 25)는 (40−20)² + (25−15)² = 500 &gt; 25, 실제 거리로 약 224m 
     if (a === "timerPause") { const t = S.timer; if (!t) return; if (t.paused != null) { t.end = Date.now() + t.paused; t.paused = null; } else t.paused = t.end - Date.now(); share(); return renderTimer(); }
     if (a === "qr") { S.qr = !S.qr; share(); return renderQr(); }
     if (a === "qrClose") { S.qr = false; share(); return renderQr(); }
-    if (a === "notes") { const d = $("drawer"); d.hidden = !d.hidden; $("notesBtn").classList.toggle("hot", !d.hidden); return; }
     if (a === "fs") { if (document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen && document.documentElement.requestFullscreen().catch(() => {}); return; }
     if (a === "openPresenter") { e && e.preventDefault(); window.open(baseUrl() + "#presenter", "conf2026-presenter"); if (view === "home") location.hash = "#slide-" + (S.i + 1); return; }
     if (a === "openAudience") { window.open(baseUrl() + "#slide-" + (S.i + 1), "conf2026-audience"); return; }
@@ -850,19 +903,30 @@ D(40, 25)는 (40−20)² + (25−15)² = 500 &gt; 25, 실제 거리로 약 224m 
   document.addEventListener("click", e => { const b = e.target.closest("[data-act]"); if (b) act(b.dataset.act, e); });
   document.addEventListener("keydown", e => {
     if (e.target.matches("input,textarea,select")) return;
-    if (e.key === "Escape") { if (S.qr) act("qrClose"); else if (!$("drawer").hidden) act("notes"); else if (S.timer) act("timerClose"); return; }
+    if (e.key === "Escape") { if (S.qr) act("qrClose"); else if (S.timer) act("timerClose"); return; }
     if (view !== "deck" && view !== "pres") return;
     const k = e.key;
     if (["ArrowRight", "ArrowDown", "PageDown", " ", "Enter"].includes(k)) { e.preventDefault(); act("next"); }
     else if (["ArrowLeft", "ArrowUp", "PageUp", "Backspace"].includes(k)) { e.preventDefault(); act("prev"); }
     else if (k === "Home") go(0); else if (k === "End") go(N - 1);
     else if (k === "q" || k === "Q") act("qr");
-    else if (k === "n" || k === "N") act("notes");
     else if (k === "f" || k === "F") act("fs");
-    else if (k === "p" || k === "P") act("openPresenter");
     else if (k === "9") startTimer(90); else if (k === "6") startTimer(60); else if (k === "4") startTimer(40); else if (k === "2") startTimer(20);
   });
 
+
+  /* ================= 발표자 화면 잠금 · 프로젝터 막대 숨기기 ================= */
+  const PIN = "1128";      // 발표자 화면 비밀번호 (바꾸려면 이 숫자만 고치면 됩니다)
+  const unlocked = () => store.get("presenterOk", false) === true;
+  function renderLock() { const lk = view === "pres" && !unlocked(); $("lock").hidden = !lk; if (lk) setTimeout(() => $("pin").focus(), 50); }
+  $("lockForm").addEventListener("submit", e => {
+    e.preventDefault();
+    if ($("pin").value.trim() === PIN) { store.set("presenterOk", true); $("pin").value = ""; $("pinMsg").textContent = ""; renderLock(); renderPres(); }
+    else { $("pinMsg").textContent = "비밀번호가 맞지 않습니다."; $("pin").select(); }
+  });
+  let idleT = 0;
+  const wake = () => { document.body.classList.remove("idle"); clearTimeout(idleT); if (view === "deck") idleT = setTimeout(() => document.body.classList.add("idle"), 2500); };
+  ["mousemove", "pointerdown", "keydown", "touchstart"].forEach(ev => document.addEventListener(ev, wake, { passive: true }));
   /* ================= 첫 화면 ================= */
   function renderHome() { makeQr($("homeQr"), labUrl(), 170); }
 
@@ -871,7 +935,9 @@ D(40, 25)는 (40−20)² + (25−15)² = 500 &gt; 25, 실제 거리로 약 224m 
   const L = Object.assign({}, FRESH, store.get("lab", {}));
   const saveL = () => store.set("lab", L);
   const TABS = ["출발 자료", "질문 펼치기", "기준으로 나누기", "하나 고르기", "식으로 판정", "되돌아보기"];
-  const SAMPLE = ["왜 하필 50m일까?", "출입문이 여러 개면 어디서부터 재나?", "200m는 학교의 어디서부터 재는 거리일까?", "보호구역 안에는 어떤 가게가 들어올 수 없을까?", "담장이 곡선이면 거리를 어떻게 잴까?", "우리 학교 앞 편의점은 보호구역 안일까?"];
+  // 5단계(식으로 판정)로 이어지는 질문: 가게의 구역을 원의 방정식·점과 직선 사이의 거리로 판단할 수 있는 질문
+  const SAMPLE5 = ["C PC방은 절대보호구역일까, 상대보호구역일까?", "가게 D는 담장에서 딱 200m인데 보호구역 안일까?", "출입문에서 50m 안에 있는지 식으로 어떻게 확인할까?", "학교 앞 가게 다섯 곳은 각각 어느 구역일까?"];
+  const SAMPLE = ["왜 하필 50m일까?", "출입문이 여러 개면 어디서부터 재나?", "200m는 학교의 어디서부터 재는 거리일까?", "보호구역 안에는 어떤 가게가 들어올 수 없을까?", "담장이 곡선이면 거리를 어떻게 잴까?", ...SAMPLE5];
   // 단계별 실천 지표 (발표 자료 30~35쪽): 사고 기능 s3 · 의사소통 기능 s1, focus = 이 단계의 초점
   const STEP = [
     { s3: ["고03창의-01"], s1: [], focus: ["s3"], look: "답을 말하려 하는가, 물음을 떠올리는가", tag: "설계 단계" },
@@ -898,7 +964,8 @@ D(40, 25)는 (40−20)² + (25−15)² = 500 &gt; 25, 실제 거리로 약 224m 
   const nav = i => `<div class="navrow">${i > 0 ? `<button class="btn" type="button" data-tab="${i - 1}">← ${TABS[i - 1]}</button>` : "<span></span>"}${i < 5 ? `<button class="btn primary" type="button" data-tab="${i + 1}">${TABS[i + 1]} →</button>` : ""}</div>`;
   const panel = (title, desc, body) => `<section class="panel"><div class="panel-head"><div class="panel-title">${title}</div>${desc ? `<div class="panel-desc">${desc}</div>` : ""}</div><div class="panel-body" style="display:flex;flex-direction:column;gap:12px">${body}</div></section>`;
   const nameA = () => L.ca.trim() || "기준 A", nameB = () => L.cb.trim() || "기준 B";
-  const sampleBtn = `<button class="btn" type="button" data-sample="1">예시 질문 6개 불러오기</button>`;
+  const sampleBtn = `<button class="btn" type="button" data-sample="1">예시 질문 9개 불러오기</button>`;
+  const s5Tag = q => SAMPLE5.includes(q.t) ? `<span class="s5">5단계 식으로 판정</span>` : "";
   function qItems(mode) {
     if (!L.qs.length) return `<p class="mut">아직 올린 질문이 없습니다.</p>`;
     return `<ul class="qlist">${L.qs.map((q, i) => {
@@ -907,7 +974,7 @@ D(40, 25)는 (40−20)² + (25−15)² = 500 &gt; 25, 실제 거리로 약 224m 
       if (mode === "add") tail = `<button class="x" type="button" data-del="${i}" aria-label="지우기">×</button>`;
       if (mode === "sort") tail = `<span class="ab" role="group" aria-label="분류"><button class="a ${q.c === 1 ? "on" : ""}" type="button" data-ab="${i}:1" aria-pressed="${q.c === 1}" title="${esc(nameA())}">A</button><button class="b ${q.c === 2 ? "on" : ""}" type="button" data-ab="${i}:2" aria-pressed="${q.c === 2}" title="${esc(nameB())}">B</button></span>`;
       if (mode === "pick") tail = `<button class="tagb ${L.pick === i ? "a" : ""}" type="button" data-pick="${i}">${L.pick === i ? "★ 골랐음" : "고르기"}</button>`;
-      return `<li class="${cls}"><span class="t">${esc(q.t)}</span>${tail}</li>`;
+      return `<li class="${cls}"><span class="t">${esc(q.t)}${s5Tag(q)}</span>${tail}</li>`;
     }).join("")}</ul>`;
   }
   function binsHtml() {
@@ -926,7 +993,7 @@ D(40, 25)는 (40−20)² + (25−15)² = 500 &gt; 25, 실제 거리로 약 224m 
     if (i === 1) h = `<div class="lab-grid">${panel("2단계 · 질문 펼치기", "옆 선생님과 함께, 90초 동안 질문을 최대한 많이 올립니다.",
       `<ul class="rules"><li><b>좋은 질문·나쁜 질문</b>을 가리지 않습니다.</li><li><b>물음표로 끝나면 모두</b> 올립니다.</li><li>멈춰서 <b>판단하거나 설명하지</b> 않습니다.</li><li>예) 왜 하필 50m일까?</li></ul>
        <div class="addq"><input id="qIn" type="text" maxlength="120" placeholder="질문을 적고 Enter" enterkeyhint="send" aria-label="질문 입력"><button class="btn primary" type="button" id="qAdd">올리기</button></div>`)}
-       ${panel(`내 질문 <span class="cnt">${L.qs.length}개</span>`, "", qItems("add") + (L.qs.length ? "" : sampleBtn) + nav(1))}</div>`;
+       ${panel(`내 질문 <span class="cnt">${L.qs.length}개</span>`, "", qItems("add") + sampleBtn + nav(1))}</div>`;
     if (i === 2) h = `<div class="lab-grid">${panel("3단계 · 기준을 세워 나누기", "분류 기준은 여러분이 정합니다. 선생님의 예시는 하나뿐입니다.",
       `<ol class="how"><li><b>기준 A와 기준 B</b>를 적습니다. (예시를 그대로 써도 됩니다)</li><li>질문마다 오른쪽 <b style="color:#c2401f">A</b> 또는 <b style="color:#1f55a8">B</b> 단추를 <b>한 번</b> 누릅니다.</li><li>잘못 눌렀으면 <b>다른 단추</b>를 누르면 바뀌고, <b>같은 단추를 다시</b> 누르면 취소됩니다.</li></ol>
        <div class="crit"><label class="la">기준 A<input id="ca" type="text" maxlength="30" placeholder="예: 지도에서 찾아보면 끝난다" value="${esc(L.ca)}"></label><label class="lb">기준 B<input id="cb" type="text" maxlength="30" placeholder="예: 계산하고 판단해야 한다" value="${esc(L.cb)}"></label></div>
@@ -936,7 +1003,7 @@ D(40, 25)는 (40−20)² + (25−15)² = 500 &gt; 25, 실제 거리로 약 224m 
       (L.qs.length ? qItems("pick") : `<p class="mut">2단계에서 질문을 먼저 올려 주세요.</p>${sampleBtn}`))}
        ${panel("고른 이유", "넓게 펼친 질문을 기준에 따라 좁힙니다.",
       `<textarea class="ta" id="why" placeholder="예: 계산으로 답을 확인할 수 있고, 다른 질문의 출발점이 되기 때문에">${esc(L.why)}</textarea>
-       <div class="note">오늘 발표에서는 <b>‘이 가게는 어느 구역일까?’</b>를 함께 다룹니다. 고른 질문이 달라도 괜찮습니다.</div>${nav(3)}`)}</div>`;
+       <div class="note">오늘 발표에서는 <b>‘이 가게는 어느 구역일까?’</b>를 함께 다룹니다. <span class="s5">5단계 식으로 판정</span> 표시가 붙은 질문은 다음 5단계에서 원의 방정식과 점과 직선 사이의 거리로 바로 판단할 수 있습니다. 고른 질문이 달라도 괜찮습니다.</div>${nav(3)}`)}</div>`;
     if (i === 4) {
       const s = SHOPS.find(x => x.id === L.sel) || SHOPS[2];
       let right;
@@ -1028,7 +1095,7 @@ D(40, 25)는 (40−20)² + (25−15)² = 500 &gt; 25, 실제 거리로 약 224m 
     if (view === "lab") renderLab();
     if (view === "deck") renderDeck();
     if (view === "pres") renderPres();
-    renderTimer(); renderQr();
+    renderTimer(); renderQr(); renderLock(); wake();
   }
   let rT = 0;
   window.addEventListener("resize", () => { clearTimeout(rT); rT = setTimeout(drawLabMap, 60); });
