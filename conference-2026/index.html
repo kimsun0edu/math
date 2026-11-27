@@ -916,7 +916,7 @@ D(40, 25)는 (40−20)² + (25−15)² = 500 &gt; 25, 실제 거리로 약 224m 
 
 
   /* ================= 발표자 화면 잠금 · 프로젝터 막대 숨기기 ================= */
-  const PIN = "1128";      // 발표자 화면 비밀번호 (바꾸려면 이 숫자만 고치면 됩니다)
+  const PIN = "0604";      // 발표자 화면 비밀번호 (바꾸려면 이 숫자만 고치면 됩니다)
   const unlocked = () => store.get("presenterOk", false) === true;
   function renderLock() { const lk = view === "pres" && !unlocked(); $("lock").hidden = !lk; if (lk) setTimeout(() => $("pin").focus(), 50); }
   $("lockForm").addEventListener("submit", e => {
