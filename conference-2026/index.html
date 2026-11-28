@@ -252,6 +252,7 @@
   .qlist li.pk{border:2px solid #15171a;background:#f4fbd0}
   .tagb{flex:none;font-size:11px;font-weight:900;border-radius:999px;padding:3px 8px;background:#ece8de;color:#6b6f74;cursor:pointer;border:0}
   .tagb.a{background:#ff5a30;color:#fff}
+  .s5.sm{color:#5b33a8;background:#efe8fd;border-color:#d3c4f5}
   .s5{display:inline-block;margin-left:6px;font-size:10.5px;font-weight:900;color:#1f55a8;background:#e3edff;border:1px solid #b9cff5;border-radius:999px;padding:1px 7px;vertical-align:1px;white-space:nowrap}
   /* 3단계: A/B 단추로 나누기 */
   .ab{display:flex;gap:4px;flex:none}
@@ -953,7 +954,9 @@ D(40, 25)는 (40−20)² + (25−15)² = 500 &gt; 25, 실제 거리로 약 224m 
   const TABS = ["출발 자료", "질문 펼치기", "기준으로 나누기", "하나 고르기", "식으로 판정", "되돌아보기"];
   // 5단계(식으로 판정)로 이어지는 질문: 가게의 구역을 원의 방정식·점과 직선 사이의 거리로 판단할 수 있는 질문
   const SAMPLE5 = ["C PC방은 절대보호구역일까, 상대보호구역일까?", "가게 D는 담장에서 딱 200m인데 보호구역 안일까?", "출입문에서 50m 안에 있는지 식으로 어떻게 확인할까?", "학교 앞 가게 다섯 곳은 각각 어느 구역일까?"];
-  const SAMPLE = ["왜 하필 50m일까?", "출입문이 여러 개면 어디서부터 재나?", "200m는 학교의 어디서부터 재는 거리일까?", "보호구역 안에는 어떤 가게가 들어올 수 없을까?", "담장이 곡선이면 거리를 어떻게 잴까?", ...SAMPLE5];
+  // 법 조문의 낱말을 수학 개념으로 옮기는 질문 (모델링·표현)
+  const SAMPLEM = ["조문에서 표현하는 출입문은 수학의 어떤 개념으로 연결될까?", "학교 경계라는 것은 수학의 어떤 개념과 연결될까?", "‘직선거리’는 수학의 어떤 개념으로 나타낼 수 있을까?", "‘50m 이내’라는 말은 수학의 어떤 식으로 바꿀 수 있을까?"];
+  const SAMPLE = ["왜 하필 50m일까?", "출입문이 여러 개면 어디서부터 재나?", "200m는 학교의 어디서부터 재는 거리일까?", "보호구역 안에는 어떤 가게가 들어올 수 없을까?", "담장이 곡선이면 거리를 어떻게 잴까?", ...SAMPLEM, ...SAMPLE5];
   // 단계별 실천 지표 (발표 자료 30~35쪽): 사고 기능 s3 · 의사소통 기능 s1, focus = 이 단계의 초점
   const STEP = [
     { s3: ["고03창의-01"], s1: [], focus: ["s3"], look: "답을 말하려 하는가, 물음을 떠올리는가", tag: "설계 단계" },
@@ -980,8 +983,8 @@ D(40, 25)는 (40−20)² + (25−15)² = 500 &gt; 25, 실제 거리로 약 224m 
   const nav = i => `<div class="navrow">${i > 0 ? `<button class="btn" type="button" data-tab="${i - 1}">← ${TABS[i - 1]}</button>` : "<span></span>"}${i < 5 ? `<button class="btn primary" type="button" data-tab="${i + 1}">${TABS[i + 1]} →</button>` : ""}</div>`;
   const panel = (title, desc, body) => `<section class="panel"><div class="panel-head"><div class="panel-title">${title}</div>${desc ? `<div class="panel-desc">${desc}</div>` : ""}</div><div class="panel-body" style="display:flex;flex-direction:column;gap:12px">${body}</div></section>`;
   const nameA = () => L.ca.trim() || "기준 A", nameB = () => L.cb.trim() || "기준 B";
-  const sampleBtn = `<button class="btn" type="button" data-sample="1">예시 질문 9개 불러오기</button>`;
-  const s5Tag = q => SAMPLE5.includes(q.t) ? `<span class="s5">5단계 식으로 판정</span>` : "";
+  const sampleBtn = `<button class="btn" type="button" data-sample="1">예시 질문 13개 불러오기</button>`;
+  const s5Tag = q => SAMPLE5.includes(q.t) ? `<span class="s5">5단계 식으로 판정</span>` : SAMPLEM.includes(q.t) ? `<span class="s5 sm">수학 개념 연결</span>` : "";
   function qItems(mode) {
     if (!L.qs.length) return `<p class="mut">아직 올린 질문이 없습니다.</p>`;
     return `<ul class="qlist">${L.qs.map((q, i) => {
