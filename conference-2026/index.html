@@ -239,6 +239,11 @@
   .ic.s01{background:#ff5a30}.ic.s03{background:#7a4fd1}
   .q{font-size:18px;font-weight:850;line-height:1.45;letter-spacing:-.03em;margin:0}
   .stmt{font-family:"Hakgyoansim Boardmarker",Pretendard,sans-serif;font-size:clamp(24px,5vw,34px);line-height:1.4;background:#fff;border:2px solid #15171a;border-radius:16px;padding:18px 20px;text-align:center}
+  .law{background:#fff;border:1px solid #d8d2c7;border-left:5px solid #15171a;border-radius:12px;padding:12px 14px;font-size:14px;line-height:1.7}
+  .law-h{font-weight:900;font-size:13px;margin-bottom:4px}
+  .law p{margin:0 0 4px}.law .it{padding-left:10px}
+  .law .za{color:#c2401f}.law .zr{color:#1f55a8}
+  .law small{display:block;margin-top:4px;font-size:11px;color:var(--muted)}
   .rules{display:grid;gap:6px;margin:0;padding:0;list-style:none}
   .rules li{background:#fff;border:1px solid #e3ded4;border-radius:10px;padding:8px 11px;font-size:13.5px;line-height:1.5}
   .rules li b{color:#c2401f}
@@ -1008,6 +1013,11 @@ D(40, 25)는 (40−20)² + (25−15)² = 500 &gt; 25, 실제 거리로 약 224m 
     let h = "";
     if (i === 0) h = `<div class="lab-grid one">${panel("1단계 · 출발 자료", "지금은 답을 찾는 시간이 아닙니다. 아래 문장을 읽고, 답하지 말고 물음만 떠올려 보세요.",
       `<div class="stmt">학교 출입문으로부터 50m,<br>학교 경계로부터 200m</div>
+       <div class="law"><div class="law-h">「교육환경 보호에 관한 법률」 제8조(교육환경보호구역의 설정 등) ①</div>
+         <p>교육감은 학교경계 또는 학교설립예정지 경계(이하 "학교경계등"이라 한다)로부터 직선거리 200미터의 범위 안의 지역을 다음 각 호의 구분에 따라 교육환경보호구역으로 설정ㆍ고시하여야 한다.</p>
+         <p class="it"><b class="za">1. 절대보호구역</b>: 학교출입문으로부터 직선거리로 50미터까지인 지역(학교설립예정지의 경우 학교경계로부터 직선거리 50미터까지인 지역)</p>
+         <p class="it"><b class="zr">2. 상대보호구역</b>: 학교경계등으로부터 직선거리로 200미터까지인 지역 중 절대보호구역을 제외한 지역</p>
+         <small>출처: 국가법령정보센터, 법률 (시행 2026. 6. 3.)</small></div>
        <div class="note">답을 말하고 싶어지나요? 그 마음을 잠시 미루고 “왜?”, “어디까지?”, “누가?”를 붙여 보세요.</div>${nav(0)}`)}</div>`;
     if (i === 1) h = `<div class="lab-grid">${panel("2단계 · 질문 펼치기", "옆 선생님과 함께, 90초 동안 질문을 최대한 많이 올립니다.",
       `<ul class="rules"><li><b>좋은 질문·나쁜 질문</b>을 가리지 않습니다.</li><li><b>물음표로 끝나면 모두</b> 올립니다.</li><li>멈춰서 <b>판단하거나 설명하지</b> 않습니다.</li><li>예) 왜 하필 50m일까?</li></ul>
