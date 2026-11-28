@@ -603,6 +603,17 @@
       g.setLineDash([f(5), f(4)]); g.strokeStyle = "rgba(21,23,26,.3)"; g.lineWidth = 2 * dpr; g.beginPath(); g.moveTo(X(0), Y(30)); g.lineTo(X(40), Y(0)); g.stroke(); g.setLineDash([]);
       g.strokeStyle = "#15171a"; g.lineWidth = 3 * dpr; g.beginPath(); BENT.forEach((p, i) => i ? g.lineTo(X(p.x), Y(p.y)) : g.moveTo(X(p.x), Y(p.y))); g.stroke();
       label("꺾인 담장(가정)", X(30), Y(10.6), "#15171a", 11);
+      // 바깥으로 튀어나온 꼭짓점 (48, 12)에서는 직선까지의 거리가 아니라 꼭짓점까지의 거리로 잰다 → 반지름 200m(20칸) 원
+      const V = BENT[2];
+      g.save(); g.beginPath(); g.rect(X(0), Y(H), W * sc, H * sc); g.clip();
+      g.fillStyle = "rgba(47,111,214,.07)"; g.strokeStyle = "#2f6fd6"; g.lineWidth = 2.2 * dpr; g.setLineDash([f(7), f(5)]);
+      g.beginPath(); g.arc(X(V.x), Y(V.y), REL * sc, 0, 7); g.fill(); g.stroke(); g.setLineDash([]);
+      g.strokeStyle = "#2f6fd6"; g.lineWidth = 1.5 * dpr; g.beginPath(); g.moveTo(X(V.x), Y(V.y)); g.lineTo(X(V.x - 0.6 * REL), Y(V.y + 0.8 * REL)); g.stroke();
+      g.restore();
+      dot(X(V.x), Y(V.y), 5, "#2f6fd6");
+      label("꼭짓점 (48, 12)", X(V.x) + f(8), Y(V.y) - f(10), "#1f55a8", 11.5);
+      label("반지름 200m", X(V.x - 0.3 * REL) - f(6), Y(V.y + 0.4 * REL), "#1f55a8", 11, "right");
+      label("원 (x−48)² + (y−12)² = 20²", X(V.x - 2), Y(V.y + REL + 1.2) < Y(H) ? Y(H) + f(12) : Y(V.y + REL + 1.2), "#1f55a8", 11.5, "center");
     } else {
       g.strokeStyle = "#15171a"; g.lineWidth = 3 * dpr; g.beginPath(); g.moveTo(X(0), Y(30)); g.lineTo(X(40), Y(0)); g.stroke();
       g.fillStyle = "#15171a"; g.font = `800 ${f(11)}px ui-monospace,Consolas,monospace`; g.textAlign = "left"; g.textBaseline = "bottom";
@@ -1035,7 +1046,7 @@ D(40, 25)는 (40−20)² + (25−15)² = 500 &gt; 25, 실제 거리로 약 224m 
          ${L.vote ? `<div class="calc"><b>실제는? 모델을 바꿔 보기</b><div class="tgl" style="margin:6px 0">
             <button class="chip tg ${L.gate2 ? "on" : ""}" type="button" data-ltg="gate2">출입문이 여러 개라면?</button>
             <button class="chip tg ${L.bent ? "on" : ""}" type="button" data-ltg="bent">경계가 직선이 아니라면?</button></div>
-            ${L.gate2 || L.bent ? cmpTable(L) + `<p class="mut" style="margin:6px 0 0">노란 줄은 판정이 바뀐 가게입니다. 식 ①, ②는 어떤 가정에서만 맞을까요?</p>` : `<p class="mut" style="margin:0">지금 식은 ‘출입문 하나, 경계는 직선 하나’라는 가정 위에 있습니다.</p>`}</div>` : ""}`)}
+            ${L.gate2 || L.bent ? cmpTable(L) + `<p class="mut" style="margin:6px 0 0">노란 줄은 판정이 바뀐 가게입니다. 식 ①, ②는 어떤 가정에서만 맞을까요?</p>${L.bent ? `<p class="mut" style="margin:6px 0 0"><b style="color:#1f55a8">파란 점선 원</b>: 꺾인 담장의 꼭짓점 (48, 12)를 중심으로 한 반지름 200m 원 (x−48)² + (y−12)² ≤ 20². 꼭짓점 바깥쪽에서는 직선까지의 거리 대신 꼭짓점까지의 거리로 재므로, B 문구점은 √((52−48)² + (30−12)²) = √340 ≈ 18.4칸(약 184m)으로 200m 안입니다.</p>` : ""}` : `<p class="mut" style="margin:0">지금 식은 ‘출입문 하나, 경계는 직선 하나’라는 가정 위에 있습니다.</p>`}</div>` : ""}`)}
          <div style="display:flex;flex-direction:column;gap:10px;min-width:0">${right}${nav(4)}</div></div>`;
     }
     if (i === 5) {
